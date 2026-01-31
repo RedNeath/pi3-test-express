@@ -4,12 +4,16 @@ var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var { connectDB } = require('./models');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var transportRouter = require('./routes/transport');
 
 var app = express();
+
+// Connexion à MongoDB
+connectDB();
 
 app.use(cors({
   origin: '*', // En développement, on peut être permissif, ou spécifier http://localhost:5173

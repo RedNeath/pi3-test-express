@@ -15,4 +15,4 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/ .
 ENV NODE_ENV=production
 EXPOSE 3000
-CMD ["node", "bin/www"]
+CMD ["sh", "-c", "npm run db:init && node bin/www"]
