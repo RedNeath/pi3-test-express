@@ -1,11 +1,14 @@
 services:
-  # Base de données MySQL
+  # MariaDB database (linuxserver/mariadb)
   db:
-    image: mysql:8.0
-    container_name: mysql_db
+    image: linuxserver/mariadb:latest
+    container_name: mariadb
     networks:
       - app-network
     environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      TZ: ${TZ:-UTC}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
@@ -13,7 +16,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mariadb_data:/config
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
@@ -63,4 +66,4 @@ networks:
     driver: bridge
 
 volumes:
-  mysql_data:
+  mariadb_data:
